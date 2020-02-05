@@ -1,4 +1,4 @@
-# SpringBoot 2 练习项目，会持续输出的哦，给个小心心吧~
+# SpringBoot 2 知识讲解，会持续输出的哦，给个小心心吧~
 
 ## [项目相关的介绍和讲解都会在Wiki中更新，请到Wiki查看吧~](https://github.com/kenyonlover/springboot2train/wiki)
 

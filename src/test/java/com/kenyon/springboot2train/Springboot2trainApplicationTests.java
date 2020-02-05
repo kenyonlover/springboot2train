@@ -3,12 +3,15 @@ package com.kenyon.springboot2train;
 import com.kenyon.springboot2train.config.JavaConfig;
 import com.kenyon.springboot2train.entity.Book;
 import com.kenyon.springboot2train.itf.Food;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,6 +37,19 @@ class Springboot2trainApplicationTests {
         ctx.refresh();
         Food food = (Food) ctx.getBean("food");
         System.out.println(food.showName());
+    }
+
+    @Autowired
+    TemplateEngine templateEngine;
+    @Test
+    public void testMail() throws MessagingException {
+        Context context = new Context();
+        context.setVariable("username", "kenyon");
+        context.setVariable("position", "Java工程师");
+        context.setVariable("salary", 10000);
+        String mail = templateEngine.process("mail", context);
+        //省略邮件发送，将模板打印出来
+        System.out.println(mail);
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 
 public class RiceCondition implements Condition {
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        return context.getEnvironment().getProperty("people").equals("南方人");
+//        return context.getEnvironment().getProperty("people").equals("南方人");
+        return true;
     }
 }

@@ -1,136 +1,146 @@
-# 2. 自动化配置之条件注解@Condition
+近几年来，越来越多的公司加入前后端分离的大趋势之中，但是还是有部分开发离不开后端模板，在前后端不分离的项目上，后端模板更是不可缺少的部分。
 
-曾经臃肿繁琐的 Spring 配置确实让人感到头大，而 Spring Boot 带来的全新自动化配置，确实缓解了这个问题。
+早期，Jsp作为Java后端的基本页面模板，在SpringBoot中已经很少使用，整合起来和使用都比较麻烦，SpringBoot目前的主要的后端模板以Thymeleaf和 Freemarker为主，这一节我们就来讲讲在SpringBoot中如何使用Themeleaf。
 
-自动化配置中，有一个非常关键的点，那就是条件注解，甚至可以说条件注解是整个 Spring Boot 的基石。
+### ==Themeleaf==
+Thymeleaf 是新一代 Java 模板引擎，它类似于 Velocity、FreeMarker 等传统 Java 模板引擎，但是与传统 Java 模板引擎不同的是，Thymeleaf 支持 HTML 原型。
 
-条件注解并非一个新事物，这是一个存在于 Spring 中的东西，我们在 Spring 中常用的 profile 实际上就是条件注解的一个特殊化。
+它既可以让前端工程师在浏览器中直接打开查看样式，也可以让后端工程师结合真实数据查看显示效果，同时，SpringBoot 提供了 Thymeleaf 自动化配置解决方案，因此在 SpringBoot 中使用 Thymeleaf 非常方便。
 
-Spring4 中提供了更加通用的条件注解，让我们可以在满足不同条件时创建不同的 Bean，这种配置方式在 Spring Boot 中得到了广泛的使用，大量的自动化配置都是通过条件注解来实现的。
+事实上， Thymeleaf 除了展示基本的 HTML ，进行页面渲染之外，也可以作为一个 HTML 片段进行渲染，例如我们在做邮件发送时，可以使用 Thymeleaf 作为邮件发送模板。
 
-## 实践
+另外，由于 Thymeleaf 模板后缀为 .html，可以直接被浏览器打开，因此，预览时非常方便。
 
-### Spring中的条件注解
-
-首先定义接口
-
-```java
-public interface Food {
-    String showName();
-}
+### ==实战==
+#### 1. 首先是创建包含 Thymeleaf 模板的项目
+在IDEA中新创建SpringBoot项目是，直接选中Thymeleaf模板穿建即可
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200205124109822.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21yX2FjY29tcGFueQ==,size_16,color_FFFFFF,t_70)
+在已经存在的SpringBoot项目，只需要在pom.xml中引入Thymeleaf的dependency即可
 ```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+</dependency>
+```
+然后在resources目录下创建templates目录
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200205124454787.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21yX2FjY29tcGFueQ==,size_16,color_FFFFFF,t_70)
+#### 2. 创建 Controller
+```
+@Controller
+public class HelloController {
 
-定义两个实现类
-
-```java
-public class Rice implements Food {
-    public String showName() {
-        return "米饭";
+    @GetMapping("/index")
+    public String index(Model model){
+        List<User> users = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            User u = new User();
+            u.setId((long) i);
+            u.setName("名称:" + i);
+            u.setAddress("地址:" + i);
+            users.add(u);
+        }
+        model.addAttribute("users", users);
+        return "index";
     }
-}
-```
-```java
-public class Noodles implements Food {
-    public String showName() {
-        return "面条";
-    }
-}
-```
 
-定义条件类
-
-```java
-public class RiceCondition implements Condition {
-    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        return context.getEnvironment().getProperty("people").equals("南方人");
-    }
-}
-```
-```java
-public class NoodlesCondition implements Condition {
-    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        return context.getEnvironment().getProperty("people").equals("北方人");
+    @GetMapping("/name")
+    public String name(Model model){
+        model.addAttribute("username", "李四");
+        return "name";
     }
 }
 ```
+#### 3. 在 templates 目录下创建 Thymeleaf 模板
+index.html
+```
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>编号</td>
+            <td>用户名</td>
+            <td>地址</td>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.address}"></td>
+        </tr>
+    </table>
+</body>
+</html>
+```
+name.html
 
-定义java配置类
+```
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 
-```java
-@Configuration
-public class JavaConfig {
-    @Bean("food")
-    @Conditional(RiceCondition.class)
-    Food rice() {
-        return new Rice();
-    }
+    <script th:inline="javascript">
+        const username = [[${username}]];
+        alert("姓名是："+username);
+    </script>
 
-    @Bean("food")
-    @Conditional(NoodlesCondition.class)
-    Food noodles() {
-        return new Noodles();
-    }
+</body>
+</html>
+```
+#### 4. 测试
+启动项目，到浏览器中访问
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200205125202281.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21yX2FjY29tcGFueQ==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200205125211321.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21yX2FjY29tcGFueQ==,size_16,color_FFFFFF,t_70)
+#### 5. 邮件模板
+现在 templates 目录下穿建邮件模板
+mail.html
+```
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>hello 欢迎 <span th:text="${username}"></span>加入 中国社会 集团，您的入职信息如下：</p>
+<table border="1">
+    <tr>
+        <td>职位</td>
+        <td th:text="${position}"></td>
+    </tr>
+    <tr>
+        <td>薪水</td>
+        <td th:text="${salary}"></td>
+    </tr>
+</table>
+<img src="http://www.javaboy.org/images/sb/javaboy.jpg" alt="">
+</body>
+</html>
+```
+然后进行Junit测试
+
+```
+@Autowired
+TemplateEngine templateEngine;
+@Test
+public void testMail() throws MessagingException {
+    Context context = new Context();
+    context.setVariable("username", "kenyon");
+    context.setVariable("position", "Java工程师");
+    context.setVariable("salary", 10000);
+    String mail = templateEngine.process("mail", context);
+    //省略邮件发送，将模板打印出来
+    System.out.println(mail);
 }
 ```
-这个配置类，大家重点注意两个地方：
-* 两个 Bean 的名字都为 food，这不是巧合，而是有意取的。两个 Bean 的返回值都为其父类对象 Food。
-* 每个 Bean 上都多了 @Conditional 注解，当 @Conditional 注解中配置的条件类的 matches 方法返回值为 true 时，对应的 Bean 就会生效。
-
-
-配置完成后，我们就可以在 main 方法中进行测试了：
-```java
-public class TestCondition {
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.getEnvironment().getSystemProperties().put("people", "南方人");
-        ctx.register(JavaConfig.class);
-        ctx.refresh();
-        Food food = (Food) ctx.getBean("food");
-        System.out.println(food.showName());
-    }
-}
-```
-
-注意：因为需要向环境中写入配置值，所以不可以使用Junit测试。
-
-### SpringBoot中的条件注解升级版 @Profile
-
-首先 Food、Rice 以及 Noodles 的定义不用变
-
-直接在 Bean 定义时添加 @Profile 注解
-```java
-@Configuration
-public class JavaConfig2 {
-    @Bean("food")
-    @Profile("南方人")
-    Food rice() {
-        return new Rice();
-    }
-    @Bean("food")
-    @Profile("北方人")
-    Food noodles() {
-        return new Noodles();
-    }
-}
-```
-测试:
-```java
-public class TestCondition2 {
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-        ctx.getEnvironment().setActiveProfiles("南方人");
-        ctx.register(JavaConfig2.class);
-        ctx.refresh();
-        Food food = (Food) ctx.getBean("food");
-        System.out.println(food.showName());
-    }
-}
-```
-
-
-### 总结
-@Profile 注解自动帮我们实现了条件注解中我们写的那一套东西。
-
-@Profile 虽然方便，但是不够灵活，因为具体的判断逻辑不是我们自己实现的。而 @Conditional 则比较灵活。
-
-两个例子向大家展示了条件注解在 Spring 中的使用，它的一个核心思想就是当满足某种条件的时候，某个 Bean 才会生效，而正是这一特性，支撑起了 Spring Boot 的自动化配置。
+测试结果
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200205125636346.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21yX2FjY29tcGFueQ==,size_16,color_FFFFFF,t_70)
+### ==总结==
+这里列举了SpringBoot整合Themeleaf的几个要点，还是比较简单的，更多的用法可以阅读[Themeleaf的官方文档](https://www.thymeleaf.org/documentation.html)。
