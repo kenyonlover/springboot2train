@@ -6,6 +6,9 @@
 
 ## [2. 自动化配置之条件注解@Condition](https://github.com/kenyonlover/springboot2train/wiki/2.-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%85%8D%E7%BD%AE%E4%B9%8B%E6%9D%A1%E4%BB%B6%E6%B3%A8%E8%A7%A3@Condition)
 
+## [3. SpringBoot整合Themeleaf使用](https://github.com/kenyonlover/springboot2train/wiki/3.-SpringBoot%E6%95%B4%E5%90%88Themeleaf%E4%BD%BF%E7%94%A8)
+
+## [4. SpringBoot中@ControllerAdvice如何使用](https://github.com/kenyonlover/springboot2train/wiki/4.-SpringBoot%E4%B8%AD@ControllerAdvice%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8)
 
 # github项目源码地址
 ```

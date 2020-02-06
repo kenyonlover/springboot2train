@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HelloController {
@@ -29,5 +30,13 @@ public class HelloController {
     public String name(Model model){
         model.addAttribute("username", "李四");
         return "name";
+    }
+
+    @GetMapping("/global")
+    public String global(Model model) {
+        Map<String, Object> map = model.asMap();//全局数据
+        System.out.println(map);
+        int i = 1 / 0;
+        return "global controller advice";
     }
 }
