@@ -10,6 +10,8 @@
 
 ## [4. SpringBoot中@ControllerAdvice如何使用](https://github.com/kenyonlover/springboot2train/wiki/4.-SpringBoot%E4%B8%AD@ControllerAdvice%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8)
 
+## [5. 使用CORS解决跨域问题](https://github.com/kenyonlover/springboot2train/wiki/5.-%E4%BD%BF%E7%94%A8CORS%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98)
+
 # github项目源码地址
 ```
 https://github.com/kenyonlover/springboot2train.git
