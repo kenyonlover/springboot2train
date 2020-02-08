@@ -14,6 +14,8 @@
 
 ### [6. SpringBoot中的定时任务](https://github.com/kenyonlover/springboot2train/wiki/6.-SpringBoot%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1)
 
+### [7. SpringBoot利用Swagger2构建Api文档](https://github.com/kenyonlover/springboot2train/wiki/7.-SpringBoot%E5%88%A9%E7%94%A8Swagger2%E6%9E%84%E5%BB%BAApi%E6%96%87%E6%A1%A3)
+
 # github项目源码地址
 ```
 https://github.com/kenyonlover/springboot2train.git

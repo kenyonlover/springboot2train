@@ -1,6 +1,7 @@
 package com.kenyon.springboot2train.controller;
 
 import com.kenyon.springboot2train.entity.User;
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@Api(tags = "Hello接口")
 public class HelloController {
 
     @GetMapping("/index")
