@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data //生成getter,setter等函数
 @AllArgsConstructor //生成全参数构造函数
 @NoArgsConstructor //生成无参构造函数
-@ApiModel
+@ApiModel//在swagger中说明当前实体
 public class User {
     @ApiModelProperty(value = "用户id")
     private Long id;

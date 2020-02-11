@@ -16,6 +16,8 @@
 
 ### [7. SpringBoot利用Swagger2构建Api文档](https://github.com/kenyonlover/springboot2train/wiki/7.-SpringBoot%E5%88%A9%E7%94%A8Swagger2%E6%9E%84%E5%BB%BAApi%E6%96%87%E6%A1%A3)
 
+### [8. SpringBoot整合JdbcTemplate](https://github.com/kenyonlover/springboot2train/wiki/8.-SpringBoot-%E6%95%B4%E5%90%88-JdbcTemplate)
+
 # github项目源码地址
 ```
 https://github.com/kenyonlover/springboot2train.git
