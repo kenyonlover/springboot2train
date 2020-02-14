@@ -18,6 +18,8 @@
 
 ### [8. SpringBoot整合JdbcTemplate](https://github.com/kenyonlover/springboot2train/wiki/8.-SpringBoot-%E6%95%B4%E5%90%88-JdbcTemplate)
 
+### [9. SpringBoot中整合Mybatis及使用](https://github.com/kenyonlover/springboot2train/wiki/9.-SpringBoot%E4%B8%AD%E6%95%B4%E5%90%88Mybatis%E5%8F%8A%E4%BD%BF%E7%94%A8)
+
 # github项目源码地址
 ```
 https://github.com/kenyonlover/springboot2train.git
