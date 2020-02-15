@@ -2,7 +2,10 @@ package com.kenyon.springboot2train;
 
 import com.kenyon.springboot2train.config.JavaConfig;
 import com.kenyon.springboot2train.entity.Book;
+import com.kenyon.springboot2train.entity.User;
 import com.kenyon.springboot2train.itf.Food;
+import com.kenyon.springboot2train.service.RedisService;
+import com.kenyon.springboot2train.service.UserMpService;
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -52,4 +55,24 @@ class Springboot2trainApplicationTests {
         System.out.println(mail);
     }
 
+    @Autowired
+    RedisService redisService;
+    @Test
+    public void  testRedis(){
+        redisService.setValue("addr3","宁德");
+        Object addr1 = redisService.getValue("addr3");
+        System.out.println(addr1);
+    }
+
+    @Autowired
+    UserMpService userMpService;
+    @Test
+    public void testCache(){
+        User user = userMpService.getUserById(7L);
+        System.out.println(user);
+        user.setAddress("福州");
+        User updateUserById = userMpService.updateUserById(user);
+        System.out.println(updateUserById);
+        userMpService.deleteUserById(updateUserById.getId());
+    }
 }

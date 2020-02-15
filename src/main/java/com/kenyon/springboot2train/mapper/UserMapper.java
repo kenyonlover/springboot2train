@@ -31,5 +31,5 @@ public interface UserMapper {
     Integer updateUserById(User user);
 
     @Delete("delete from user where id=#{id}")
-    Integer deleteUserById(Integer id);
+    Integer deleteUserById(Long id);
 }
